@@ -1,0 +1,73 @@
+% =====================================================================
+%  บทที่ 3  วิธีดำเนินการวิจัย
+% =====================================================================
+\chapter{วิธีดำเนินการวิจัย}
+\label{ch:method}
+
+\section{ภาพรวมของระบบ}
+
+ระบบผู้ช่วยสอนที่พัฒนาขึ้นประกอบด้วยสามส่วนหลัก ได้แก่ ส่วนค้นคืนเอกสาร ส่วนสร้างคำตอบ และส่วนติดต่อผู้ใช้ ดังแสดงในภาพที่~\ref{fig:overview}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+      node distance=8mm and 10mm,
+      box/.style={draw, rounded corners=3pt, thick, align=center,
+                  minimum width=30mm, minimum height=12mm, fill=blue!6},
+      db/.style={draw, thick, align=center, minimum width=30mm,
+                 minimum height=12mm, fill=orange!10},
+      arr/.style={-{Stealth[length=2.5mm]}, thick}]
+    \node[box] (q)   {คำถามจากผู้เรียน};
+    \node[box, right=of q] (ret) {ส่วนค้นคืนเอกสาร\\(Retriever)};
+    \node[db,  below=of ret] (docs) {เอกสารประกอบ\\การสอน};
+    \node[box, right=of ret] (llm) {แบบจำลองภาษา\\(LLM)};
+    \node[box, below=of llm] (ans) {คำตอบและ\\คำแนะนำ};
+    \draw[arr] (q) -- (ret);
+    \draw[arr] (docs) -- (ret);
+    \draw[arr] (ret) -- node[above]{บริบท} (llm);
+    \draw[arr] (llm) -- (ans);
+  \end{tikzpicture}
+  \caption{ภาพรวมของระบบผู้ช่วยสอนแบบ RAG}
+  \label{fig:overview}
+\end{figure}
+
+\section{การเตรียมข้อมูล}
+
+เอกสารประกอบการสอนทั้งหมดถูกแบ่งเป็นส่วนย่อย (chunk) ขนาดประมาณ 500 โทเคน แล้วแปลงเป็นเวกเตอร์ฝังตัว (embedding) เพื่อจัดเก็บในฐานข้อมูลเวกเตอร์ ความคล้ายคลึงระหว่างคำถาม $\mathbf{q}$ กับเอกสาร $\mathbf{d}$ คำนวณด้วยความคล้ายคลึงโคไซน์ดังสมการที่~\eqref{eq:cosine}
+\begin{equation}
+  \operatorname{sim}(\mathbf{q},\mathbf{d}) =
+  \frac{\mathbf{q}\cdot\mathbf{d}}{\lVert\mathbf{q}\rVert\,\lVert\mathbf{d}\rVert}
+  \label{eq:cosine}
+\end{equation}
+
+\section{การพัฒนาระบบ}
+
+ตัวอย่างโค้ดสำหรับค้นคืนเอกสารที่เกี่ยวข้องแสดงดังโปรแกรมต่อไปนี้
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+def retrieve(query_vec, doc_vecs, docs, k=3):
+    """Return the k most similar documents (cosine similarity)."""
+    q = query_vec / np.linalg.norm(query_vec)
+    d = doc_vecs / np.linalg.norm(doc_vecs, axis=1, keepdims=True)
+    scores = d @ q
+    top = np.argsort(scores)[::-1][:k]
+    return [docs[i] for i in top]
+\end{lstlisting}
+
+\section{เครื่องมือที่ใช้ในการวิจัย}
+
+\begin{enumerate}
+  \item ระบบผู้ช่วยสอนที่พัฒนาขึ้น
+  \item แบบทดสอบวัดผลสัมฤทธิ์ทางการเรียน จำนวน 30 ข้อ
+  \item แบบสอบถามความพึงพอใจ แบบมาตราส่วนประมาณค่า 5 ระดับ (ภาคผนวก~\ref{app:questionnaire})
+\end{enumerate}
+
+\section{การวิเคราะห์ข้อมูล}
+
+เปรียบเทียบคะแนนหลังเรียนระหว่างกลุ่มทดลองและกลุ่มควบคุมด้วยสถิติทดสอบที (independent samples $t$-test) ดังสมการที่~\eqref{eq:ttest}
+\begin{equation}
+  t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}}}
+  \label{eq:ttest}
+\end{equation}

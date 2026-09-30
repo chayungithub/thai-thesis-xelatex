@@ -1,0 +1,122 @@
+% =====================================================================
+%  แม่แบบวิทยานิพนธ์ภาษาไทย (XeLaTeX)
+%  คอมไพล์:  latexmk   (ตั้งค่า XeLaTeX + Biber ไว้ใน latexmkrc แล้ว)
+%  ผลลัพธ์:  build/main.pdf  (ไฟล์ชั่วคราวทั้งหมดอยู่ใน build/)
+% =====================================================================
+\documentclass{thaithesis}
+% ตัวเลือกเพิ่มเติม เช่น
+%   \documentclass[pagebottom]{thaithesis}          เลขหน้ากึ่งกลางด้านล่าง
+%   \documentclass[chapterpagenumber]{thaithesis}   แสดงเลขหน้าในหน้าแรกของบท
+%   \documentclass[systemfont]{thaithesis}          ข้ามไฟล์ใน fonts/ ใช้ฟอนต์ที่ติดตั้งในเครื่อง
+
+% ขอบกระดาษตามข้อกำหนดของสถาบัน (ค่าเริ่มต้น: บน 1.5" ซ้าย 1.5" ขวา 1" ล่าง 1")
+% \geometry{top=3.5cm, left=3.5cm, right=2.5cm, bottom=3.5cm}
+
+% ระยะย่อหน้า (ค่าเริ่มต้น 0.5 นิ้ว)
+% \setlength\thesisindent{1.5cm}\setlength\parindent{\thesisindent}
+
+% ---------------------------------------------------------------------
+%  ข้อมูลวิทยานิพนธ์  (แก้ไขเป็นข้อมูลจริง)
+% ---------------------------------------------------------------------
+\thesistypeth{วิทยานิพนธ์}      % หรือ ปริญญานิพนธ์ / สารนิพนธ์ / โครงงาน
+\thesistypeen{Thesis}           % หรือ Dissertation / Independent Study / Project
+
+% ใช้ \\ เพื่อขึ้นบรรทัดใหม่ให้ชื่อเรื่องเป็นรูปสามเหลี่ยมกลับหัว
+\titleth{การพัฒนาระบบผู้ช่วยสอนด้วยปัญญาประดิษฐ์เชิงสร้างสรรค์\\สำหรับรายวิชาการเขียนโปรแกรมเบื้องต้น}
+\titleen{Development of a Generative AI Teaching Assistant\\for an Introductory Programming Course}
+
+\authorth{นายสมชาย ใจดี}
+\authoren{Mr. Somchai Jaidee}
+
+\degreeth{วิศวกรรมศาสตรมหาบัณฑิต}
+\degreeen{Master of Engineering}
+\programth{วิศวกรรมคอมพิวเตอร์}
+\programen{Computer Engineering}
+\facultyth{คณะวิศวกรรมศาสตร์}
+\facultyen{Faculty of Engineering}
+\instituteth{มหาวิทยาลัยตัวอย่าง}
+\instituteen{Example University}
+\academicyear{2569}{2026}       % {พ.ศ.}{ค.ศ.}
+
+\advisorth{ผู้ช่วยศาสตราจารย์ ดร.สมหญิง ตั้งใจเรียน}
+\advisoren{Asst. Prof. Dr. Somying Tangjairian}
+\coadvisorth{}                  % เว้นว่างได้ถ้าไม่มี
+\coadvisoren{}
+
+\deanth{รองศาสตราจารย์ ดร.ใจดี มีเมตตา}
+\committee{ประธานกรรมการ}{รองศาสตราจารย์ ดร.สมศักดิ์ รักวิชา}
+\committee{กรรมการ}{ดร.วิภาวี ศรีสว่าง}
+\committee{กรรมการและอาจารย์ที่ปรึกษา}{ผู้ช่วยศาสตราจารย์ ดร.สมหญิง ตั้งใจเรียน}
+
+\keywordsth{ปัญญาประดิษฐ์เชิงสร้างสรรค์, แบบจำลองภาษาขนาดใหญ่, ผู้ช่วยสอน, การเขียนโปรแกรม}
+\keywordsen{Generative AI, Large Language Models, Teaching Assistant, Programming Education}
+
+% ตราสถาบัน: วางไฟล์ figures/logo.png (หรือ .pdf/.jpg) แล้วระบุชื่อไฟล์โดยไม่ต้องใส่นามสกุล
+\logo[3.5cm]{figures/logo}
+
+% ---------------------------------------------------------------------
+%  บรรณานุกรม (Biber)
+%  - แบบ IEEE (ตัวเลข [1]):  style=ieee
+%  - แบบ APA (ผู้แต่ง, ปี):   style=apa
+% ---------------------------------------------------------------------
+\usepackage[backend=biber, style=ieee, sorting=none]{biblatex}
+\addbibresource{references.bib}
+
+% ---------------------------------------------------------------------
+%  แพ็กเกจเพิ่มเติมสำหรับตัวอย่าง
+% ---------------------------------------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\small,
+  columns=fullflexible, keepspaces=true,
+  frame=single, framerule=0.4pt, rulecolor=\color{black!40},
+  numbers=left, numberstyle=\ttfamily\scriptsize\color{black!50},
+  keywordstyle=\bfseries\color{blue!60!black},
+  commentstyle=\itshape\color{green!40!black},
+  stringstyle=\color{red!60!black},
+  breaklines=true, showstringspaces=false,
+  xleftmargin=2em, framexleftmargin=1.5em}
+
+% =====================================================================
+\begin{document}
+
+% ---------- ส่วนปก (ไม่แสดงเลขหน้า) ----------
+\makecover        % ปกนอก
+\maketitleth      % ปกในภาษาไทย
+\maketitleen      % ปกในภาษาอังกฤษ
+\makeapproval     % หน้าอนุมัติ
+
+% ---------- ส่วนนำ (เลขหน้า ก ข ค ...) ----------
+\frontmatter
+\input{frontmatter/abstract-th}
+\input{frontmatter/abstract-en}
+\input{frontmatter/acknowledgements}
+\tableofcontents
+\listoftables
+\listoffigures
+\input{frontmatter/abbreviations}
+
+% ---------- เนื้อหา (เลขหน้า 1 2 3 ...) ----------
+\mainmatter
+\input{chapters/chapter1}
+\input{chapters/chapter2}
+\input{chapters/chapter3}
+\input{chapters/chapter4}
+\input{chapters/chapter5}
+
+% ---------- ส่วนท้าย ----------
+\backmatter
+\printbibliography[heading=thesis]
+
+\appendix
+\appendixpage                    % หน้าคั่น "ภาคผนวก"
+\input{appendices/appendix-a}    % ภาคผนวก ก
+\input{appendices/appendix-b}    % ภาคผนวก ข
+
+\input{backmatter/biography}     % ประวัติผู้เขียน
+
+\end{document}

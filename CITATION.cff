@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this template, please cite it as below."
+title: "thai-thesis-xelatex: A Thai Thesis Template for XeLaTeX"
+type: software
+authors:
+  - family-names: Kongtongvattana
+    given-names: Chayun
+version: 1.0.0
+date-released: 2026-09-30
+license: MIT
+repository-code: "https://github.com/chayungithub/thai-thesis-xelatex"
+keywords:
+  - LaTeX
+  - XeLaTeX
+  - thesis
+  - Thai
+  - template
+  - TH Sarabun New

@@ -1,0 +1,73 @@
+% =====================================================================
+%  บทที่ 4  ผลการวิจัย
+% =====================================================================
+\chapter{ผลการวิจัย}
+\label{ch:results}
+
+\section{ผลการเปรียบเทียบผลสัมฤทธิ์ทางการเรียน}
+
+ผลการเปรียบเทียบคะแนนผลสัมฤทธิ์ทางการเรียนหลังเรียนระหว่างกลุ่มทดลองและกลุ่มควบคุมแสดงในตารางที่~\ref{tab:ttest}
+
+\begin{table}[htbp]
+  \caption{ผลการเปรียบเทียบคะแนนหลังเรียนระหว่างกลุ่มทดลองและกลุ่มควบคุม}
+  \label{tab:ttest}
+  \centering
+  \begin{tabular}{@{}l c c c c c@{}}
+    \toprule
+    \textbf{กลุ่ม} & $n$ & $\bar{x}$ & $S.D.$ & $t$ & $p$\\
+    \midrule
+    กลุ่มทดลอง  & 30 & 24.37 & 2.81 & \multirow{2}{*}{4.12} & \multirow{2}{*}{.000*}\\
+    กลุ่มควบคุม & 30 & 21.13 & 3.24 &  & \\
+    \bottomrule
+    \multicolumn{6}{@{}l}{\small * มีนัยสำคัญทางสถิติที่ระดับ .05}
+  \end{tabular}
+\end{table}
+
+จากตารางที่~\ref{tab:ttest} พบว่ากลุ่มทดลองมีคะแนนเฉลี่ยหลังเรียนสูงกว่ากลุ่มควบคุมอย่างมีนัยสำคัญทางสถิติที่ระดับ .05 และเมื่อพิจารณาคะแนนรายหัวข้อ พบว่าหัวข้อที่มีความแตกต่างมากที่สุดคือการวนซ้ำ ดังภาพที่~\ref{fig:scores}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        ybar, bar width=9pt, width=0.9\linewidth, height=6.5cm,
+        ymin=0, ymax=10, ylabel={คะแนนเฉลี่ย},
+        symbolic x coords={ตัวแปร, เงื่อนไข, การวนซ้ำ, ฟังก์ชัน, รายการ},
+        xtick=data, enlarge x limits=0.15,
+        legend style={at={(0.5,-0.18)}, anchor=north, legend columns=-1,
+                      draw=none, /tikz/every even column/.append style={column sep=1em}},
+        tick label style={font=\small}, label style={font=\small}]
+      \addplot[fill=blue!55]   coordinates {(ตัวแปร,8.9) (เงื่อนไข,8.1) (การวนซ้ำ,7.6) (ฟังก์ชัน,7.2) (รายการ,7.0)};
+      \addplot[fill=orange!60] coordinates {(ตัวแปร,8.5) (เงื่อนไข,7.4) (การวนซ้ำ,5.9) (ฟังก์ชัน,6.3) (รายการ,6.1)};
+      \legend{กลุ่มทดลอง, กลุ่มควบคุม}
+    \end{axis}
+  \end{tikzpicture}
+  \caption{คะแนนเฉลี่ยรายหัวข้อของกลุ่มทดลองและกลุ่มควบคุม}
+  \label{fig:scores}
+\end{figure}
+
+\section{ผลการประเมินความพึงพอใจ}
+
+ตารางที่~\ref{tab:satisfaction} แสดงตัวอย่างตารางยาวที่ต่อข้ามหน้าได้ (\texttt{longtable}) โดยหัวตารางจะแสดงซ้ำพร้อมคำว่า ``(ต่อ)'' ในหน้าถัดไปโดยอัตโนมัติ
+
+\begin{longtable}{@{}p{0.62\linewidth} c c l@{}}
+  \caption{ความพึงพอใจของผู้เรียนที่มีต่อระบบผู้ช่วยสอน}
+  \label{tab:satisfaction}\\
+  \toprule
+  \textbf{รายการประเมิน} & $\bar{x}$ & $S.D.$ & \textbf{ระดับ}\\
+  \midrule
+  \endfirsthead
+  \caption[]{(ต่อ)}\\
+  \toprule
+  \textbf{รายการประเมิน} & $\bar{x}$ & $S.D.$ & \textbf{ระดับ}\\
+  \midrule
+  \endhead
+  \bottomrule
+  \endlastfoot
+  1. ระบบตอบคำถามได้ตรงกับเนื้อหาของรายวิชา & 4.60 & 0.50 & มากที่สุด\\
+  2. คำอธิบายเข้าใจง่าย & 4.53 & 0.57 & มากที่สุด\\
+  3. ระบบช่วยให้แก้ไขข้อผิดพลาดของโค้ดได้เร็วขึ้น & 4.57 & 0.63 & มากที่สุด\\
+  4. ระบบตอบสนองได้รวดเร็ว & 4.37 & 0.67 & มาก\\
+  5. ระบบใช้งานง่าย & 4.63 & 0.49 & มากที่สุด\\
+  \midrule
+  \textbf{ภาพรวม} & \textbf{4.52} & \textbf{0.58} & \textbf{มากที่สุด}\\
+\end{longtable}

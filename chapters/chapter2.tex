@@ -1,0 +1,74 @@
+% =====================================================================
+%  บทที่ 2  ทฤษฎีและงานวิจัยที่เกี่ยวข้อง
+% =====================================================================
+\chapter{ทฤษฎีและงานวิจัยที่เกี่ยวข้อง}
+\label{ch:literature}
+
+ในบทนี้กล่าวถึงทฤษฎีพื้นฐานของปัญญาประดิษฐ์เชิงสร้างสรรค์และงานวิจัยที่เกี่ยวข้อง ซึ่งเป็นพื้นฐานในการออกแบบระบบในบทที่~\ref{ch:method}
+
+\section{แบบจำลองเชิงสร้าง}
+
+แบบจำลองเชิงสร้าง (generative model) มีเป้าหมายเพื่อเรียนรู้การแจกแจงความน่าจะเป็นของข้อมูล $p(\mathbf{x})$ แล้วสุ่มตัวอย่างใหม่จากการแจกแจงนั้น แบบจำลองที่สำคัญมีดังนี้
+
+\subsection{เครือข่ายปฏิปักษ์เชิงสร้าง}
+
+เครือข่ายปฏิปักษ์เชิงสร้าง (GAN)~\cite{goodfellow2014generative} ประกอบด้วยเครือข่ายสองส่วน คือ ตัวสร้าง (generator) $G$ และตัวจำแนก (discriminator) $D$ ซึ่งแข่งขันกันตามฟังก์ชันเป้าหมายในสมการที่~\eqref{eq:gan}
+\begin{equation}
+  \min_{G}\max_{D}\;
+  \mathbb{E}_{\mathbf{x}\sim p_{\text{data}}}\!\left[\log D(\mathbf{x})\right]
+  + \mathbb{E}_{\mathbf{z}\sim p_{\mathbf{z}}}\!\left[\log\bigl(1-D(G(\mathbf{z}))\bigr)\right]
+  \label{eq:gan}
+\end{equation}
+
+\subsection{ตัวเข้ารหัสอัตโนมัติแบบแปรผัน}
+
+ตัวเข้ารหัสอัตโนมัติแบบแปรผัน (VAE)~\cite{kingma2014auto} เรียนรู้ตัวแปรแฝง $\mathbf{z}$ โดยหาค่าสูงสุดของขอบเขตล่างของหลักฐาน (evidence lower bound) ดังสมการที่~\eqref{eq:elbo}
+\begin{equation}
+  \mathcal{L}(\theta,\phi;\mathbf{x}) =
+  \mathbb{E}_{q_\phi(\mathbf{z}\mid\mathbf{x})}\left[\log p_\theta(\mathbf{x}\mid\mathbf{z})\right]
+  - D_{\mathrm{KL}}\!\left(q_\phi(\mathbf{z}\mid\mathbf{x})\,\|\,p(\mathbf{z})\right)
+  \label{eq:elbo}
+\end{equation}
+
+\subsection{แบบจำลองการแพร่}
+
+แบบจำลองการแพร่ (diffusion model)~\cite{ho2020denoising} ค่อย ๆ เติมสัญญาณรบกวนลงในข้อมูลจนกลายเป็นสัญญาณรบกวนแบบเกาส์เซียน แล้วฝึกเครือข่ายให้ย้อนกระบวนการดังกล่าว โดยใช้ฟังก์ชันค่าสูญเสียอย่างง่ายดังสมการที่~\eqref{eq:ddpm}
+\begin{equation}
+  \mathcal{L}_{\text{simple}} =
+  \mathbb{E}_{t,\mathbf{x}_0,\boldsymbol{\epsilon}}
+  \left[\bigl\lVert \boldsymbol{\epsilon}
+  - \boldsymbol{\epsilon}_\theta\!\left(\sqrt{\bar{\alpha}_t}\,\mathbf{x}_0
+  + \sqrt{1-\bar{\alpha}_t}\,\boldsymbol{\epsilon},\, t\right)\bigr\rVert^2\right]
+  \label{eq:ddpm}
+\end{equation}
+
+\section{สถาปัตยกรรมทรานส์ฟอร์เมอร์}
+
+หัวใจสำคัญของทรานส์ฟอร์เมอร์~\cite{vaswani2017attention} คือกลไกความสนใจ (attention) ซึ่งคำนวณได้ดังสมการที่~\eqref{eq:attention} เมื่อ $Q$, $K$ และ $V$ คือเมทริกซ์คิวรี คีย์ และค่า ตามลำดับ และ $d_k$ คือมิติของคีย์
+\begin{equation}
+  \operatorname{Attention}(Q,K,V) = \operatorname{softmax}\!\left(\frac{QK^{\top}}{\sqrt{d_k}}\right)V
+  \label{eq:attention}
+\end{equation}
+
+\section{งานวิจัยที่เกี่ยวข้อง}
+
+ตารางที่~\ref{tab:related} สรุปแบบจำลองเชิงสร้างที่สำคัญซึ่งเกี่ยวข้องกับงานวิจัยนี้
+
+\begin{table}[htbp]
+  \caption{สรุปแบบจำลองเชิงสร้างที่สำคัญ}
+  \label{tab:related}
+  \centering
+  \begin{tabularx}{\linewidth}{@{}l c X@{}}
+    \toprule
+    \textbf{แบบจำลอง} & \textbf{ปี} & \textbf{จุดเด่น}\\
+    \midrule
+    GAN~\cite{goodfellow2014generative} & 2014 & สร้างภาพได้คมชัด แต่การฝึกสอนไม่เสถียร\\
+    VAE~\cite{kingma2014auto} & 2014 & มีพื้นที่แฝงที่ต่อเนื่อง ตีความได้ง่าย\\
+    Transformer~\cite{vaswani2017attention} & 2017 & ประมวลผลลำดับแบบขนานด้วยกลไกความสนใจ\\
+    DDPM~\cite{ho2020denoising} & 2020 & คุณภาพภาพสูงและฝึกสอนได้เสถียร\\
+    GPT-3~\cite{brown2020language} & 2020 & เรียนรู้จากตัวอย่างเพียงไม่กี่ตัวอย่าง (few-shot)\\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+นอกจากเอกสารภาษาอังกฤษแล้ว สามารถอ้างอิงเอกสารภาษาไทยได้ในรูปแบบเดียวกัน~\cite{thai-example}
